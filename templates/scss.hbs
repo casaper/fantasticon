@@ -1,0 +1,80 @@
+// if overwritten only the variables and mixins are available for use
+${{nameKebab}}-render-style: true !default;
+
+// Enable rendering css variables of codesets
+//
+// For example:
+// --{{nameKebab}}-key: "\f10a";
+// you can do anywhere in your css, even in webcomponents:
+// content: var(--{{nameKebab}}-key);
+${{nameKebab}}-render-css-variables: false !default;
+
+${{nameKebab}}-name: '{{name}}';
+${{nameKebab}}-selector: '{{selector}}';
+${{nameKebab}}-tag: '{{tag}}';
+${{nameKebab}}-start-selector: '{{startSelector}}';
+${{nameKebab}}-prefix: '{{prefix}}';
+${{nameKebab}}-src: {{{ fontSrc }}};
+
+${{nameKebab}}-codepoints: (
+{{#each codepoints}}
+  '{{@key}}': '{{ codepoint this }}',
+{{/each}}
+);
+
+@mixin {{nameKebab}}-font-face {
+  @font-face {
+    font-family: '#{${{nameKebab}}-name}';
+    src: {{{ fontSrc }}};
+  }
+}
+
+@mixin codepoint-content($codepoint) {
+  content: '#{$codepoint}';
+}
+
+@mixin {{nameKebab}}-base-before {
+  &::before {
+    font-weight: normal !important;
+    font-family: #{${{nameKebab}}-name} !important;
+    font-style: normal;
+    font-variant: normal;
+    line-height: 1;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@mixin {{nameKebab}}-icon-base($tagorselector: ${{nameKebab}}-start-selector) {
+  #{$tagorselector} {
+    @if ${{nameKebab}}-selector == '' {
+      &[class^='#{${{nameKebab}}-prefix}'],
+      &[class*=' #{${{nameKebab}}-prefix}'] {
+        @include {{nameKebab}}-base-before;
+      }
+    } @else {
+      @include {{nameKebab}}-base-before;
+    }
+
+    @each $key, $codepoint in ${{nameKebab}}-codepoints {
+      &#{${{nameKebab}}-prefix} {
+        &-#{$key}::before {
+          @include codepoint-content($codepoint);
+        }
+      }
+    }
+  }
+}
+
+@if ${{nameKebab}}-render-style {
+  @include {{nameKebab}}-icon-base;
+}
+
+@if ${{nameKebab}}-render-css-variables {
+  :root {
+    @each $key, $codepoint in ${{nameKebab}}-codepoints {
+      --{{nameKebab}}-#{$key}: '#{$codepoint}';
+    }
+  }
+}

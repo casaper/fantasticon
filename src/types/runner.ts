@@ -7,21 +7,23 @@ export interface RunnerMandatoryOptions {
   outputDir: string;
 }
 
+export type SvgFormatOptions = Pick<
+  SvgIcons2FontOptions,
+  | 'fontId'
+  | 'fontStyle'
+  | 'fontWeight'
+  | 'fixedWidth'
+  | 'centerHorizontally'
+  | 'metadata'
+  | 'log'
+>;
+
 export interface FormatOptions {
   eot?: any;
   woff2?: any;
   woff?: any;
   ttf?: any;
-  svg?: Pick<
-    SvgIcons2FontOptions,
-    | 'fontId'
-    | 'fontStyle'
-    | 'fontWeight'
-    | 'fixedWidth'
-    | 'centerHorizontally'
-    | 'metadata'
-    | 'log'
-  >;
+  svg?: Partial<SvgFormatOptions>;
   css?: any;
   html?: any;
   json?: {
@@ -41,6 +43,11 @@ export type RunnerOptionalOptions = {
   fontTypes: FontAssetType[];
   assetTypes: OtherAssetType[];
   formatOptions: FormatOptions;
+  customTemplate?: {
+    css?: string;
+    scss?: string;
+    html?: string;
+  };
   pathOptions: { [key in AssetType]?: string };
   codepoints: CodepointsMap;
   /**
