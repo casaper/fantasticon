@@ -150,6 +150,8 @@ ${{ nameKebab }}-codepoints: (
     $style: normal,
     $display: swap
   );
+  // prevent font-face from being rendered for every other import statement
+  ${{ nameKebab }}-render-font-face: false;
 }
 
 @if ${{ nameKebab }}-render-classes {
@@ -159,4 +161,6 @@ ${{ nameKebab }}-codepoints: (
     $prefix: ${{ nameKebab }}-prefix,
     $codepoints: ${{ nameKebab }}-codepoints
   );
+  // prevent classes from being rendered for every other import statement
+  ${{ nameKebab }}-render-classes: false;
 }
