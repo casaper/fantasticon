@@ -1,3 +1,11 @@
+# Thisis is ony a temprary release because I need my not merged implementation deployed in a project. 
+
+## Head to the actual Project: [tancredi/fantasticon](https://github.com/tancredi/fantasticon)
+
+**This is not the official package fantasticon!**
+
+---
+
 ![Logo](assets/logo.png)
 
 ## Fantasticon
