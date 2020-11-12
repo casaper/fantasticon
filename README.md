@@ -45,6 +45,9 @@ Options:
   --selector <value>           use a CSS selector instead of 'tag + prefix' (default: null)
   --tag <value>                CSS base tag for icons (default: i)
   -u, --fonts-url <value>      public url to the fonts directory (used in the generated CSS)
+  --custom-template-css <value>   use your own handlebar template intead of the default one
+  --custom-template-scss <value>  use your own handlebar template intead of the default one
+  --custom-template-html <value>  use your own handlebar template intead of the default one
   --debug                      display errors stack trace (default: false)
   --silent                     run with no logs (default: false)
   --help                       display help for command
@@ -71,7 +74,7 @@ module.exports = {
   inputDir: './icons', // (required)
   outputDir: './dist', // (required)
   fontTypes: ['ttf', 'woff', 'woff2'],
-  assetTypes: ['ts', 'css', 'json', 'html'],
+  assetTypes: ['ts', 'css', 'scss', 'json', 'html'],
   fontsUrl: '/static/fonts',
   formatOptions: {
     // Pass options directly to `svgicons2svgfont`
@@ -90,6 +93,12 @@ module.exports = {
   pathOptions: {
     ts: './src/types/icon-types.ts',
     json: './misc/icon-codepoints.json'
+  },
+  customTemplate: {
+    // see default: https://github.com/tancredi/fantasticon/blob/master/templates/
+    css: 'path/to/your/custom/template.hbs',
+    scss: 'path/to/your/custom/template.hbs',
+    html: 'path/to/your/custom/template.hbs',
   }
 };
 ```
