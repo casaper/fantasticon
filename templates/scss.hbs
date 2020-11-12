@@ -40,7 +40,10 @@ ${{ nameKebab }}-prefix: '{{ prefix }}';
 ) {
   $srcs: '';
   @each $format in $types {
-    $srcs: "#{$srcs}, url('#{$path}/#{$filename}.#{$format}') format('#{$format}')"
+    $srcs: "#{$srcs}url('#{$path}/#{$filename}.#{$format}') format('#{$format}')";
+    @if index($types, $format) < length($types) {
+      $srcs: "#{$srcs}, ";
+    }
   }
   @return $srcs;
 }
@@ -68,7 +71,11 @@ ${{ nameKebab }}-prefix: '{{ prefix }}';
 }
 
 // Allows making any css declaration do an icon
-@mixin {{ nameKebab }}-before($code-point-key: '', $size: '') {
+@mixin {{ nameKebab }}-before(
+  $codeid: '',
+  $size: '',
+  $codepoints: ${{ nameKebab }}-codepoints
+) {
   @if $size != '' {
     font-size: $size;
   }
@@ -84,8 +91,8 @@ ${{ nameKebab }}-prefix: '{{ prefix }}';
     @if $size != '' {
       font-size: $size;
     }
-    @if $code-point-key != '' {
-      @include codepoint-content($codeid: $code-point-key, $codepoints: ${{ nameKebab }}-codepoints);
+    @if $codeid != '' {
+      @include codepoint-content($codeid: $codeid, $codepoints: $codepoints);
     }
   }
 }
@@ -106,10 +113,10 @@ ${{ nameKebab }}-prefix: '{{ prefix }}';
       @include {{ nameKebab }}-before;
     }
 
-    @each $key, $codepoint in $codepoints {
+    @each $codeid, $codepoint in $codepoints {
       &#{$prefix} {
-        &-#{$key}::before {
-          @include codepoint-content($codeid: $code-point-key, $codepoints: $codepoints);
+        &-#{$codeid}::before {
+          @include codepoint-content($codeid: $codeid, $codepoints: $codepoints);
         }
       }
     }
