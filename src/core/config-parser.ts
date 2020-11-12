@@ -24,6 +24,7 @@ const CONFIG_VALIDATORS: {
   pathOptions: [],
   templates: [],
   codepoints: [],
+  customTemplate: [],
   fontHeight: [optional(parseNumeric)],
   descent: [optional(parseNumeric)],
   normalize: [optional(parseBoolean)],
