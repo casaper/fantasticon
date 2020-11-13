@@ -4,6 +4,7 @@ import { ASSET_TYPES, ASSET_TYPES_WITH_TEMPLATE } from '../../types/misc';
 import { getCodepoints } from '../../utils/codepoints';
 
 const getCodepointsMock = (getCodepoints as any) as jest.Mock;
+const getDefaultTemplatePathMock = (getDefaultTemplatePath as any) as jest.Mock;
 
 jest.mock('path');
 
@@ -19,6 +20,12 @@ jest.mock('../../types/misc', () => ({
   ASSET_TYPES_WITH_TEMPLATE: ['html', 'css']
 }));
 
+jest.mock('../../utils/template', () => ({
+  getDefaultTemplatePath: jest.fn(
+    assetType => `/default-template-${assetType}.hbs`
+  )
+}));
+
 jest.mock('../../utils/codepoints', () => ({
   getCodepoints: jest.fn(() => ({ __mock: 'processed-codepoint__' }))
 }));
@@ -26,6 +33,7 @@ jest.mock('../../utils/codepoints', () => ({
 describe('Font generator options', () => {
   beforeEach(() => {
     getCodepointsMock.mockClear();
+    getDefaultTemplatePathMock.mockClear();
   });
 
   test('`prefillOptions` correctly extends default values for each type and prefills missing ones', () => {

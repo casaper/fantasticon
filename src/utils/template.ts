@@ -1,6 +1,10 @@
 import Handlebars from 'handlebars';
 import { resolve, isAbsolute } from 'path';
 import { readFile } from './fs-async';
+import { resolve, isAbsolute } from 'path';
+import { AssetType } from '../types/misc';
+
+const TEMPLATES_PATH = '../../templates';
 
 type BuiltinHelperName =
   | 'helperMissing'
@@ -55,9 +59,16 @@ export const renderTemplate = async ({
   context: Record<string, any>;
   compilerOptions?: CompileOptions;
 }) => {
+  const absoluteTemplatePath = isAbsolute(templatePath)
+    ? templatePath
+    : resolve(process.cwd(), templatePath);
+  const template = await readFile(absoluteTemplatePath, 'utf8');
   const template = await readFile(path, 'utf8');
   return Handlebars.compile(template)(
     { baseName: selector || tag, selector, tag, ...context },
     compilerOptions
   );
 };
+
+export const getDefaultTemplatePath = (assetType: AssetType) =>
+  resolve(__dirname, TEMPLATES_PATH, `${assetType}.hbs`);
